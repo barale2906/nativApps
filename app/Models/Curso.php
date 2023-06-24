@@ -15,4 +15,10 @@ class Curso extends Model
         'fechaInicio',
         'fechaFin',
     ];
+
+    //Relación muchos a muchos
+    public function estudiantes() : BelongsToMany
+    {
+        return $this->belongsToMany(Estudiante::class);
+    }
 }

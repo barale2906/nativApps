@@ -15,4 +15,11 @@ class Estudiante extends Model
         'edad',
         'email',
     ];
+
+    //Relación muchos a muchos
+    public function cursos() : BelongsToMany
+    {
+        return $this->belongsToMany(Curso::class);
+    }
+
 }
