@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class CursoFactory extends Factory
 {
+    
     /**
      * Define the model's default state.
      *
@@ -17,7 +18,10 @@ class CursoFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'nombre' => fake()->name(),
+            'horario' => fake()->randomElement($array=['8-10','10-12','12-14','14-16','16-18']),
+            'fechaInicio' => fake()->dateTimeBetween($startDate = '-5 months', $endDate = '+1 years', $timezone = 'America/Bogota'),
+            'fechaFin' => fake()->dateTimeBetween($startDate = '-5 months', $endDate = '+1 years', $timezone = 'America/Bogota'),
         ];
     }
 }

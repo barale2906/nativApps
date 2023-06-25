@@ -17,7 +17,10 @@ class EstudianteFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'nombre' => fake()->firstName(),
+            'apellido' => fake()->lastName(),
+            'edad'=> fake()->numberBetween($min = 15, $max = 100),
+            'email' => fake()->unique()->safeEmail(),
         ];
     }
 }
