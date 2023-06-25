@@ -20,7 +20,7 @@ class CursoFactory extends Factory
         return [
             'nombre' => fake()->name(),
             'horario' => fake()->randomElement($array=['8-10','10-12','12-14','14-16','16-18']),
-            'fechaInicio' => fake()->dateTimeBetween($startDate = '-5 months', $endDate = '+1 years', $timezone = 'America/Bogota'),
+            'fechaInicio' => fake()->dateTimeBetween($startDate = '-10 months', $endDate = '+1 years', $timezone = 'America/Bogota'),
             'fechaFin' => fake()->dateTimeBetween($startDate = '-5 months', $endDate = '+1 years', $timezone = 'America/Bogota'),
         ];
     }
