@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
 
 function Example() {
     return (
@@ -7,9 +6,9 @@ function Example() {
             <div className="row justify-content-center">
                 <div className="col-md-8">
                     <div className="card">
-                        <div className="card-header">Example Component</div>
+                        <div className="card-header">Y empieza</div>
 
-                        <div className="card-body">I'm an example component!</div>
+                        <div className="card-body">I'm an example component REACT!</div>
                     </div>
                 </div>
             </div>
@@ -18,13 +17,3 @@ function Example() {
 }
 
 export default Example;
-
-if (document.getElementById('example')) {
-    const Index = ReactDOM.createRoot(document.getElementById("example"));
-
-    Index.render(
-        <React.StrictMode>
-            <Example/>
-        </React.StrictMode>
-    )
-}
