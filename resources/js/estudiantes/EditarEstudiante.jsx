@@ -36,7 +36,7 @@ export default function EditarEstudiante(){
     useEffect(()=>{
         estudiante();
     }, []) 
-console.log()
+
     const editarEstudiante = async(e)=>{
 
         e.preventDefault()        

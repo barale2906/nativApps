@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Estudiante;
 use App\Http\Resources\EstudianteResource;
+use Illuminate\Support\Facades\DB;
 
 class EstudianteController extends Controller
 {
@@ -74,5 +75,15 @@ class EstudianteController extends Controller
         $estudiante->delete($id);
 
         return EstudianteResource::make($estudiante);
+    }
+
+    public function asignar(Request $request)
+    {
+        DB::table('curso_estudiante')->insert([
+            'curso_id'=>$request->curso_id,
+            'estudiante_id'=>$request->estudiante_id,
+            'created_at'=>now(),
+            'updated_at'=>now(),
+        ]);
     }
 }
