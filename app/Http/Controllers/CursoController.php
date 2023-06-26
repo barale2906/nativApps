@@ -37,26 +37,42 @@ class CursoController extends Controller
             'curso'=>$curso
         ], 200);
     }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show($id)
+    {
+        $curso=Curso::find($id);
+        return response()->json([
+            'curso'=>$curso
+        ], 200);
+    }
     
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Curso $curso)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'nombre'        => 'required',
-            'horario'       => 'required',
-            'fechaInicio'   => 'required',
-            'fechafin'      => 'required',      
-        ]);
+        $curso=Curso::find($id);
+        $curso->update($request->all());
+
+        return response()->json([
+            'curso'=>$curso
+        ], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Curso $curso)
+    public function destroy($id)
     {
-        //
+        $curso=Curso::findOrFail($id);
+        $curso->delete();
+
+        return response()->json([
+            'curso'=>$curso
+        ], 200);
     }
 }

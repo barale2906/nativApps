@@ -1,21 +1,41 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { urlCurso } from "../components/Url";
-import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-
-export default function Nuevocurso(){
-    const [nombre, setNombre]=useState("");
-    const [horario, setHorario]=useState("");
-    const [fechaInicio, setFechaInicio]=useState();
-    const [fechaFin, setFechaFin]=useState();
-
+export default function EditarCurso(){
     const navegar = useNavigate();
     const volver=()=>{
         navegar('/curso');
     }
+    const {id} = useParams();
+    const [nombre, setNombre]=useState("");
+    const [horario, setHorario]=useState("");
+    const [fechaInicio, setFechaInicio]=useState();
+    const [fechaFin, setFechaFin]=useState();
+    const ruta =urlCurso+"/"+id
+    const rutaupdate =urlCurso+"a/"+id
 
-    const crearCurso = async(e)=>{
+    const curso=async()=>{
+        await axios.get(ruta)
+        .then((res)=>{
+            
+            const{nombre,horario,fechaInicio,fechaFin}=res.data.curso
+            setNombre(nombre)
+            setHorario(horario)
+            setFechaInicio(fechaInicio)
+            setFechaFin(fechaFin)
+        })
+        .catch((error)=>{
+            console.log(error)
+        })
+    }
+
+    useEffect(()=>{
+        curso();
+    }, []) 
+
+    const editarCurso = async(e)=>{
 
         e.preventDefault()
 
@@ -25,14 +45,15 @@ export default function Nuevocurso(){
         formData.append('horario', horario)
         formData.append('fechaInicio', fechaInicio)
         formData.append('fechaFin', fechaFin)
+
+        await axios.post(rutaupdate,formData)
         
-        await axios.post(urlCurso,formData)
-        
-        .then((res)=>{            
+        .then((res)=>{ 
+            
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: `Haz creado el curso: <strong>${res.data.curso.nombre}</strong>`,
+                title: `Haz actualizado el curso: <strong>${res.data.curso.nombre}</strong>`,
                 showConfirmButton: false,
                 timer: 1500
             })
@@ -44,12 +65,13 @@ export default function Nuevocurso(){
         })
 
     }
+
     return(
         <div className="row">
             <div className="container text-center alert alert-primary col-sm-6 mt-4" role="alert">
                 <div className="card">
                     <div className="card-header">
-                        Crear Curso
+                        Editar Curso
                     </div>
                     <div className="card-body">
                         <h5 className="card-title">Nombre:</h5>
@@ -72,11 +94,11 @@ export default function Nuevocurso(){
                             <input type="date" className="form-control" value={fechaFin} onChange={(event)=>{setFechaFin(event.target.value)}} aria-label="fechaFin" />
                         </div>
 
-                        <button type="button" className="btn btn-info" onClick={(event)=>{crearCurso(event)}}>Crear</button>
+                        <button type="button" className="btn btn-warning" onClick={(event)=>{editarCurso(event)}}>Editar</button>
                         
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
     )
 }

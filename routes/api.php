@@ -23,5 +23,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 /* Route::middleware(['auth'])->group(function(){
     
 }); */
-Route::apiResource('cursos', CursoController::class)->names('cursos');
+Route::post('cursos', [CursoController::class, 'store']);
+Route::get('cursos', [CursoController::class, 'index']);
+Route::get('cursos/{id}', [CursoController::class, 'show']);
+Route::get('cursosa/{id}', [CursoController::class, 'destroy']);
+Route::post('cursosa/{id}', [CursoController::class, 'update']);
+
+
 Route::apiResource('estudiantes', EstudianteController::class)->names('estudiantes');
