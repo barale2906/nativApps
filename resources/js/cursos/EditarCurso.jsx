@@ -13,24 +13,25 @@ export default function EditarCurso(){
     const [horario, setHorario]=useState("");
     const [fechaInicio, setFechaInicio]=useState();
     const [fechaFin, setFechaFin]=useState();
-    const ruta =urlCurso+"/"+id
+    const [elegido, setElegido]=useState();
+    const ruta =urlCurso+"/"+id+"?included=estudiantes"
     const rutaupdate =urlCurso+"a/"+id
 
     const curso=async()=>{
         await axios.get(ruta)
         .then((res)=>{
             
-            const{nombre,horario,fechaInicio,fechaFin}=res.data.curso
-            setNombre(nombre)
-            setHorario(horario)
-            setFechaInicio(fechaInicio)
-            setFechaFin(fechaFin)
+            setElegido(res.data.data)
+            setNombre(res.data.data.nombre)
+            setHorario(res.data.data.horario)
+            setFechaInicio(res.data.data.fechaInicio)
+            setFechaFin(res.data.data.fechaFin)
         })
         .catch((error)=>{
             console.log(error)
         })
     }
-
+    
     useEffect(()=>{
         curso();
     }, []) 
@@ -53,7 +54,7 @@ export default function EditarCurso(){
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: `Haz actualizado el curso: <strong>${res.data.curso.nombre}</strong>`,
+                title: `Haz actualizado el curso: <strong>${res.data.data.nombre}</strong>`,
                 showConfirmButton: false,
                 timer: 1500
             })
@@ -71,7 +72,7 @@ export default function EditarCurso(){
             <div className="container text-center alert alert-primary col-sm-6 mt-4" role="alert">
                 <div className="card">
                     <div className="card-header">
-                        Editar Curso
+                        <h5>Editar Curso <span className="badge bg-success">{elegido?.estudiantes.length} estudiantes.</span></h5>                      
                     </div>
                     <div className="card-body">
                         <h5 className="card-title">Nombre:</h5>
@@ -95,6 +96,7 @@ export default function EditarCurso(){
                         </div>
 
                         <button type="button" className="btn btn-warning" onClick={(event)=>{editarCurso(event)}}>Editar</button>
+                        <button type="button" className="btn btn-info" onClick={()=>{volver()}}>volver</button>
                         
                     </div>
                 </div>

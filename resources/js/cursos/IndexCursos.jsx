@@ -22,7 +22,7 @@ export default function IndexCursos(){
     const cursoCarga = async () => {
         await axios.get(urlCurso)
         .then((res)=>{            
-            setCursos(res.data.cursos);                   
+            setCursos(res.data.data);                   
         })
         .catch((error)=>{
             console.log(error)

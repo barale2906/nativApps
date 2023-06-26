@@ -15,7 +15,7 @@ export default function BorrarCurso(){
         await axios.get(ruta)
         .then((res)=>{
             
-            const{nombre}=res.data.curso
+            const{nombre}=res.data.data
             setNombre(nombre)
         })
         .catch((error)=>{
@@ -41,7 +41,7 @@ export default function BorrarCurso(){
         }).then((result) => {
             if (result.isConfirmed) {
         
-            axios.get(rutad).then((response) =>{
+            axios.delete(ruta).then((response) =>{
                 if(response.status ===200){
                     volver()
                     Swal.fire(

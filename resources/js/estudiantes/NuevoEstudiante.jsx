@@ -73,6 +73,7 @@ export default function NuevoEstudiante(){
                         </div>
 
                         <button type="button" className="btn btn-info" onClick={(event)=>{crearEstudiante(event)}}>Crear</button>
+                        <button type="button" className="btn btn-info" onClick={()=>{volver()}}>volver</button>
                         
                     </div>
                 </div>

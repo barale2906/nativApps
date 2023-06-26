@@ -32,7 +32,7 @@ export default function Nuevocurso(){
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: `Haz creado el curso: <strong>${res.data.curso.nombre}</strong>`,
+                title: `Haz creado el curso: <strong>${res.data.data.nombre}</strong>`,
                 showConfirmButton: false,
                 timer: 1500
             })
@@ -73,6 +73,7 @@ export default function Nuevocurso(){
                         </div>
 
                         <button type="button" className="btn btn-info" onClick={(event)=>{crearCurso(event)}}>Crear</button>
+                        <button type="button" className="btn btn-info" onClick={()=>{volver()}}>volver</button>
                         
                     </div>
                 </div>

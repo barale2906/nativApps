@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CursoController;
+use App\Http\Controllers\Api\CursoController;
 use App\Http\Controllers\Api\EstudianteController;
 
 /*
@@ -20,16 +20,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-/* Route::middleware(['auth'])->group(function(){
-    
-}); */
-Route::post('cursos', [CursoController::class, 'store']);
-Route::get('cursos', [CursoController::class, 'index']);
-Route::get('cursos/{id}', [CursoController::class, 'show']);
-Route::get('cursosa/{id}', [CursoController::class, 'destroy']);
-Route::post('cursosa/{id}', [CursoController::class, 'update']);
-
 Route::apiResource('estudiantes', EstudianteController::class)->names('estudiantes');
-Route::post('estudiantesa/{id}', [EstudianteController::class, 'update']); 
+Route::post('estudiantesa/{id}', [EstudianteController::class, 'update']);
+
+Route::apiResource('cursos', CursoController::class)->names('cursos');
+Route::post('cursosa/{id}', [CursoController::class, 'update']);
 
 

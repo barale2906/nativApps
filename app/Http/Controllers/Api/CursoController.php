@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\Curso;
 use Illuminate\Http\Request;
+use App\Http\Resources\CursoResource;
 
 class CursoController extends Controller
 {
@@ -14,10 +16,8 @@ class CursoController extends Controller
     {
         $cursos =  Curso::orderBy('id','Desc')->get();
 
-        return response()->json([
-            'cursos'=>$cursos
-        ], 200);
-    }    
+        return CursoResource::collection($cursos);   
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -32,47 +32,47 @@ class CursoController extends Controller
         ]);
 
         $curso = Curso::create($request->all());
-
-        return response()->json([
-            'curso'=>$curso
-        ], 200);
+        return CursoResource::make($curso);
+            
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(string $id)
     {
-        $curso=Curso::find($id);
-        return response()->json([
-            'curso'=>$curso
-        ], 200);
+        $curso=Curso::included()->findOrFail($id);
+        return CursoResource::make($curso);
     }
-    
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, string $id)
     {
         $curso=Curso::find($id);
+
+        $request->validate([
+            'nombre'        => 'required',
+            'horario'       => 'required',
+            'fechaInicio'   => 'required',
+            'fechaFin'      => 'required',      
+        ]);
+
+        
         $curso->update($request->all());
 
-        return response()->json([
-            'curso'=>$curso
-        ], 200);
+        return CursoResource::make($curso);
     }
 
     /**
-     * Remove the specified resource from storage.
+    * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(string $id)
     {
-        $curso=Curso::findOrFail($id);
-        $curso->delete();
+        $curso=Curso::find($id);
+        $curso->delete($id);
 
-        return response()->json([
-            'curso'=>$curso
-        ], 200);
+        return CursoResource::make($curso);
     }
 }
