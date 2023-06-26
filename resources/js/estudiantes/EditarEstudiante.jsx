@@ -21,7 +21,7 @@ export default function EditarEstudiante(){
         await axios.get(ruta)
         .then((res)=>{
             
-            const{nombre,apellido,edad,email}=res.data.estudiante
+            const{nombre,apellido,edad,email}=res.data.data
             setNombre(nombre)
             setApellido(apellido)
             setEdad(edad)
@@ -38,7 +38,7 @@ export default function EditarEstudiante(){
 
     const editarEstudiante = async(e)=>{
 
-        e.preventDefault()
+        e.preventDefault()        
 
         const formData = new FormData()
 
@@ -47,15 +47,15 @@ export default function EditarEstudiante(){
         formData.append('edad', edad)
         formData.append('email', email)
 
-        //await axios.post(rutaupdate,formData)
-        await axios.put(ruta,formData)
+        await axios.post(rutaupdate,formData)
+        //await axios.put(ruta,formData, { headers: { 'Content-Type': 'multipart/x-www-form-urlencoder' } })
         
         .then((res)=>{ 
             
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: `Haz actualizado el Estudiante: <strong>${res.data.estudiante.nombre}</strong>`,
+                title: `Haz actualizado el Estudiante: <strong>${res.data.data.nombre}</strong>`,
                 showConfirmButton: false,
                 timer: 1500
             })

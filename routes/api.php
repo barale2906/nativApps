@@ -3,7 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CursoController;
-//use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\Api\EstudianteController;
 
 /*
@@ -30,12 +29,7 @@ Route::get('cursos/{id}', [CursoController::class, 'show']);
 Route::get('cursosa/{id}', [CursoController::class, 'destroy']);
 Route::post('cursosa/{id}', [CursoController::class, 'update']);
 
-/* Route::post('estudiantes', [EstudianteController::class, 'store']);
-Route::get('estudiantes', [EstudianteController::class, 'index']);
-Route::get('estudiantes/{id}', [EstudianteController::class, 'show']);
-Route::get('estudiantesa/{id}', [EstudianteController::class, 'destroy']);
-Route::post('estudiantesa/{id}', [EstudianteController::class, 'update']); */
-
 Route::apiResource('estudiantes', EstudianteController::class)->names('estudiantes');
+Route::post('estudiantesa/{id}', [EstudianteController::class, 'update']); 
 
 

@@ -32,7 +32,7 @@ export default function NuevoEstudiante(){
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: `Haz creado el Estudiante: <strong>${res.data.estudiante.nombre}</strong>`,
+                title: `Haz creado el Estudiante: <strong>${res.data.data.nombre}</strong>`,
                 showConfirmButton: false,
                 timer: 1500
             })

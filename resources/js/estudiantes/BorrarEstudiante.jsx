@@ -15,7 +15,7 @@ export default function BorrarEstudiante(){
         await axios.get(ruta)
         .then((res)=>{
             
-            const{nombre}=res.data.estudiante
+            const{nombre}=res.data.data
             setNombre(nombre)
         })
         .catch((error)=>{

@@ -22,7 +22,7 @@ export default function IndexEstudiantes(){
     const EstudianteCarga = async () => {
         await axios.get(urlEstudiante)
         .then((res)=>{            
-            setEstudiantes(res.data.estudiantes);                   
+            setEstudiantes(res.data.data);                   
         })
         .catch((error)=>{
             console.log(error)
@@ -32,6 +32,7 @@ export default function IndexEstudiantes(){
         EstudianteCarga();
     }, [])    
 
+    
     if(estudiantes)
     return(
         <>

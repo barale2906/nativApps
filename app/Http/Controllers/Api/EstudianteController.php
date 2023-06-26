@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Estudiante;
+use App\Http\Resources\EstudianteResource;
 
 class EstudianteController extends Controller
 {
@@ -15,9 +16,7 @@ class EstudianteController extends Controller
     {
         $estudiantes =  Estudiante::orderBy('id','Desc')->get();
 
-        return response()->json([
-            'estudiantes'=>$estudiantes
-        ], 200);
+        return EstudianteResource::collection($estudiantes);   
     }
 
     /**
@@ -33,10 +32,8 @@ class EstudianteController extends Controller
         ]);
 
         $estudiante = Estudiante::create($request->all());
-
-        return response()->json([
-            'estudiante'=>$estudiante
-        ], 200);
+        return EstudianteResource::make($estudiante);
+            
     }
 
     /**
@@ -44,10 +41,8 @@ class EstudianteController extends Controller
      */
     public function show(string $id)
     {
-        $estudiante=Estudiante::find($id);
-        return response()->json([
-            'estudiante'=>$estudiante
-        ], 200);
+        $estudiante=Estudiante::included()->findOrFail($id);
+        return EstudianteResource::make($estudiante);
     }
 
     /**
@@ -56,13 +51,18 @@ class EstudianteController extends Controller
     public function update(Request $request, string $id)
     {
         $estudiante=Estudiante::find($id);
-        
 
+        $request->validate([
+            'nombre'    => 'required|max:255',
+            'apellido'  => 'required|max:255',
+            'edad'      => 'required',
+            'email'     => 'required|max:255|unique:estudiantes,email,'. $estudiante->id,      
+        ]);
+
+        
         $estudiante->update($request->all());
 
-        return response()->json([
-            'estudiante'=>$estudiante
-        ], 200);
+        return EstudianteResource::make($estudiante);
     }
 
     /**
@@ -70,10 +70,9 @@ class EstudianteController extends Controller
      */
     public function destroy(string $id)
     {
-        $estudiante = Estudiante::destroy($id);
+        $estudiante=Estudiante::find($id);
+        $estudiante->delete($id);
 
-        return response()->json([
-            'estudiante'=>$estudiante
-        ], 200);
+        return EstudianteResource::make($estudiante);
     }
 }
