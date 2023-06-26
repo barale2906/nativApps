@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResource('estudiantes', EstudianteController::class)->names('estudiantes');
 Route::post('estudiantesa/{id}', [EstudianteController::class, 'update']);
 Route::post('asignar', [EstudianteController::class, 'asignar']);
+Route::post('top', [EstudianteController::class, 'top']);
 
 Route::apiResource('cursos', CursoController::class)->names('cursos');
 Route::post('cursosa/{id}', [CursoController::class, 'update']);
