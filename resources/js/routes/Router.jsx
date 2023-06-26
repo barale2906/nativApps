@@ -10,6 +10,7 @@ import NuevoEstudiante from '../estudiantes/NuevoEstudiante';
 import EditarEstudiante from '../estudiantes/EditarEstudiante';
 import BorrarEstudiante from '../estudiantes/BorrarEstudiante';
 import AsignarCursos from '../estudiantes/AsignarCursos';
+import AsignarEstudiante from '../cursos/AsignarEstudiante';
 
 export default function Router(){
     return(        
@@ -25,6 +26,7 @@ export default function Router(){
             <Route path="/estudiante/editar/:id" element={<EditarEstudiante/>}/>
             <Route path="/estudiante/borrar/:id" element={<BorrarEstudiante/>}/>
             <Route path="/estudiante/asignar/:id" element={<AsignarCursos/>}/>
+            <Route path="/estudiante/asignarEstudiante/:id" element={<AsignarEstudiante/>}/>
         </Routes>
     )
 }

@@ -1,49 +1,47 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { urlAsignar, urlCurso, urlEstudiante } from "../components/Url";
+import { urlAsignar, urlCurso, urlEstudiante} from "../components/Url";
 import Swal from "sweetalert2";
 import Paginacion from "../components/Paginacion";
-export default function AsignarCursos(){
+export default function AsignarEstudiante(){
     const navegar = useNavigate();
     const volver=()=>{
         navegar('/estudiante');
     }
     const {id} = useParams();
     const [nombre, setNombre]=useState("");
-    const [apellido, setApellido]=useState("");
     const [elegido, setElegido]=useState();
-    const [cursos, setCursos]=useState([]);
+    const [estudiantes, setEstudiantes]=useState([]);
     const [busca, setBusca] = useState()
     const [buscados, setBuscados] = useState()
 
     //parámetros de paginación productos
     const [itemsPerPage, setItemsPerPage]=useState(25);
     const [currentPage, setCurrentPage]=useState(1);
-    const totalItems = elegido?.cursos.length; //Total de registros a paginar
+    const totalItems = elegido?.estudiantes.length; //Total de registros a paginar
     const lastIndex = currentPage * itemsPerPage;
     const firstIndex = lastIndex-itemsPerPage;
 
-    const ruta =urlEstudiante+"/"+id+"?included=cursos"
+    const ruta =urlCurso+"/"+id+"?included=estudiantes"
     
 
-    const estudiante=async()=>{
+    const curso=async()=>{
         await axios.get(ruta)
         .then((res)=>{
             
             setElegido(res.data.data)
             setNombre(res.data.data.nombre)
-            setApellido(res.data.data.apellido)
         })
         .catch((error)=>{
             console.log(error)
         })
     }
 
-    const cursoCarga = async () => {
-        await axios.get(urlCurso)
+    const estudianteCarga = async () => {
+        await axios.get(urlEstudiante)
         .then((res)=>{            
-            setCursos(res.data.data);                   
+            setEstudiantes(res.data.data);                   
         })
         .catch((error)=>{
             console.log(error)
@@ -51,8 +49,8 @@ export default function AsignarCursos(){
     }; 
 
     useEffect(()=>{
-        estudiante();
-        cursoCarga();
+        curso();
+        estudianteCarga();
     }, []) 
 
     // carga datos a buscar
@@ -61,9 +59,9 @@ export default function AsignarCursos(){
         filtrar(e.target.value)
     }
 
-    // Busca el curso
+    // Buscar estudiante segun nombre
     const filtrar=(terminoBusqueda)=>{
-        const resultadosBusqueda=cursos?.filter((elemento)=>{
+        const resultadosBusqueda=estudiantes?.filter((elemento)=>{
             if(elemento.nombre?.toString().toLowerCase().includes(terminoBusqueda.toLowerCase())
             ){
                 return elemento;
@@ -75,7 +73,7 @@ export default function AsignarCursos(){
     const editarEstudiante = (e)=>{
         
         console.log("evento:",e)
-        const existe=elegido?.cursos.filter((elemento)=>{
+        const existe=elegido?.estudiantes.filter((elemento)=>{
             if(elemento.id===e){
                 return elemento;
             }
@@ -84,7 +82,7 @@ export default function AsignarCursos(){
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: `Ya esta siguiendo este curso`,
+                title: `Ya tiene este estudiante`,
                 showConfirmButton: false,
                 timer: 1500
             })
@@ -97,16 +95,16 @@ export default function AsignarCursos(){
     const crearAsignacion = async(e)=>{
 
         const date={
-            "curso_id":e,
-            "estudiante_id":id
+            "curso_id":id,
+            "estudiante_id":e
         }
         
         await axios.post(urlAsignar,date)
         
         .then((res)=>{ 
             
-            estudiante();
-            cursoCarga();
+            curso();
+            estudianteCarga();
             setBusca();
             setBuscados();
 
@@ -131,12 +129,12 @@ export default function AsignarCursos(){
             <div className="container text-center alert alert-primary col-sm-12 mt-4" role="alert">
                 <div className="card">
                     <div className="card-header">
-                        <h5>Asignar Cursos a: <strong>{nombre} {apellido}</strong>  esta en: <span className="badge bg-success">en {elegido?.cursos.length} cursos.</span></h5>
+                        <h5>Asignar Estudiantes a: <strong>{nombre}</strong>  tiene: <span className="badge bg-success"> {elegido?.estudiantes.length} estudiantes.</span></h5>
                         <button type="button" className="btn btn-info" onClick={()=>{volver()}}>volver</button>
                     </div>
                     <div className="card-body">
                         <div className="alert alert-success" role="alert">
-                            <h5>Buscar Curso</h5>
+                            <h5>Buscar Estudiante</h5>
                             <input value={busca} autoFocus onChange={handleChange} type="text" placeholder='Buscar producto' className='form-control'/>                            
                             {
                                 busca ?
@@ -144,9 +142,9 @@ export default function AsignarCursos(){
                                         <thead>
                                             <tr>
                                                 <th scope="col">NOMBRE</th>  
-                                                <th scope="col">HORARIO</th>
-                                                <th scope="col">INICIO</th>
-                                                <th scope="col">FIN</th>
+                                                <th scope="col">APELLIDO</th>
+                                                <th scope="col">EDAD</th>
+                                                <th scope="col">CORREO ELECTRÓNICO</th>
                                                 <th scope="col"></th>
                                             </tr>
                                         </thead>
@@ -155,9 +153,9 @@ export default function AsignarCursos(){
                                                 buscados?.map((busco,key)=>(
                                                     <tr key={key}>
                                                         <td>{busco.nombre}</td>
-                                                        <td>{busco.horario}</td>
-                                                        <td>{busco.fechaInicio}</td>
-                                                        <td>{busco.fechaFin}</td>
+                                                        <td>{busco.apellido}</td>
+                                                        <td>{busco.edad}</td>
+                                                        <td>{busco.email}</td>
                                                         <td><button type="button" className="btn btn-success btn-xs" onClick={()=>{editarEstudiante(busco.id)}}>Asignar</button></td>                                        
                                                     </tr>
                                                 )).slice(firstIndex,lastIndex)                                
@@ -167,7 +165,7 @@ export default function AsignarCursos(){
                                 :<></>
                             }
                         </div> 
-                        { elegido?.cursos.length ?
+                        { elegido?.estudiantes.length ?
                             <>                        
                                 <Paginacion 
                                     itemsPerPage={itemsPerPage} 
@@ -180,19 +178,19 @@ export default function AsignarCursos(){
                                     <thead>
                                         <tr>
                                             <th scope="col">NOMBRE</th>  
-                                            <th scope="col">HORARIO</th>
-                                            <th scope="col">INICIO</th>
-                                            <th scope="col">FIN</th>
+                                            <th scope="col">APELLIDO</th>
+                                            <th scope="col">EDAD</th>
+                                            <th scope="col">CORREO ELECTRÓNICO</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {
-                                            elegido?.cursos.map((curso,key)=>(
+                                            elegido?.estudiantes.map((estudiante,key)=>(
                                                 <tr key={key}>
-                                                    <td>{curso.nombre}</td>
-                                                    <td>{curso.horario}</td>
-                                                    <td>{curso.fechaInicio}</td>
-                                                    <td>{curso.fechaFin}</td>                                        
+                                                    <td>{estudiante.nombre}</td>
+                                                    <td>{estudiante.apellido}</td>
+                                                    <td>{estudiante.edad}</td>
+                                                    <td>{estudiante.email}</td>                                  
                                                 </tr>
                                             )).slice(firstIndex,lastIndex)                                
                                         }
