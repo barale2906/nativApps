@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\Estudiante;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Estudiante;
 
 class EstudianteController extends Controller
 {
@@ -17,7 +18,7 @@ class EstudianteController extends Controller
         return response()->json([
             'estudiantes'=>$estudiantes
         ], 200);
-    }    
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -25,10 +26,10 @@ class EstudianteController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre'    => 'required|max:255',
-            'apellido'  => 'required|max:255',
-            'edad'      => 'required',
-            'email'     => 'required|max:255|unique:estudiantes',      
+            'nombre'        => 'required',
+            'apellido'       => 'required',
+            'edad'   => 'required',
+            'email'      => 'required',      
         ]);
 
         $estudiante = Estudiante::create($request->all());
@@ -41,21 +42,22 @@ class EstudianteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(string $id)
     {
         $estudiante=Estudiante::find($id);
         return response()->json([
             'estudiante'=>$estudiante
         ], 200);
     }
-    
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, string $id)
     {
         $estudiante=Estudiante::find($id);
+        
+
         $estudiante->update($request->all());
 
         return response()->json([
@@ -64,12 +66,11 @@ class EstudianteController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+    * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(string $id)
     {
-        $estudiante=Estudiante::findOrFail($id);
-        $estudiante->delete();
+        $estudiante = Estudiante::destroy($id);
 
         return response()->json([
             'estudiante'=>$estudiante
