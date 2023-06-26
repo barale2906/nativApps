@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CursoController;
+use App\Http\Controllers\EstudianteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +19,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+/* Route::middleware(['auth'])->group(function(){
+    
+}); */
+Route::apiResource('cursos', CursoController::class)->names('cursos');
+Route::apiResource('estudiantes', EstudianteController::class)->names('estudiantes');

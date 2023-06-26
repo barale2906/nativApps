@@ -15,7 +15,7 @@ class EstudianteSeeder extends Seeder
      */
     public function run(): void
     {
-        Estudiante::factory(100)
+        Estudiante::factory(1000)
             ->create()
             ->each(function($estudiante){
                 $cursos = Curso::all()->count();

@@ -10,7 +10,7 @@ export default function Index(){
                 <div className="card-body">
                     <h5 className="card-title">Modulo de Cursos</h5>
                     <p className="card-text">Describe todos los cursos registrados en el sistema.</p>
-                    <NavLink to="/cursos"><button type="button" className="btn btn-success">Ir al modulo</button></NavLink>
+                    <NavLink to="/curso"><button type="button" className="btn btn-success">Ir al modulo</button></NavLink>
                 </div>
                 </div>
             </div>
@@ -19,7 +19,7 @@ export default function Index(){
                 <div className="card-body">
                     <h5 className="card-title">Modulo Estudiantes</h5>
                     <p className="card-text">Permite gestionar todos los estudiantes registrados</p>
-                    <NavLink to="/estudiantes"><button type="button" className="btn btn-info">Ir al modulo</button></NavLink>
+                    <NavLink to="/estudiante"><button type="button" className="btn btn-info">Ir al modulo</button></NavLink>
                 </div>
                 </div>
             </div>

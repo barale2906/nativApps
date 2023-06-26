@@ -12,47 +12,44 @@ class CursoController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $cursos =  Curso::orderBy('id','Desc')->get();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        return response()->json([
+            'cursos'=>$cursos
+        ], 200);
+    }    
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'nombre'        => 'required',
+            'horario'       => 'required',
+            'fechaInicio'   => 'required',
+            'fechaFin'      => 'required',      
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Curso $curso)
-    {
-        //
-    }
+        $curso = Curso::create($request->all());
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Curso $curso)
-    {
-        //
+        return response()->json([
+            'curso'=>$curso
+        ], 200);
     }
+    
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Curso $curso)
     {
-        //
+        $request->validate([
+            'nombre'        => 'required',
+            'horario'       => 'required',
+            'fechaInicio'   => 'required',
+            'fechafin'      => 'required',      
+        ]);
     }
 
     /**
